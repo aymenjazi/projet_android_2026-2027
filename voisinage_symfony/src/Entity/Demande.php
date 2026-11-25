@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
 class Demande
@@ -33,7 +34,7 @@ class Demande
     #[ORM\Column(name:"status",length:50,nullable:true)]
     private string $status;
     
-    #[ORM\Column(name:"date_debut",type:"date",nullable:true)]
+    #[ORM\Column(name:"date_demande",type:"date",nullable:true)]
     private DateTime $date_demande;
 
     public function getId(): ?int

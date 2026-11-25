@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AnnonceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 class Annonce
@@ -30,7 +31,7 @@ class Annonce
     #[ORM\Column(name:"type_transaction",length:50,nullable:true)]
     private ?string $type_transaction; 
     
-    #[ORM\Column(name:"prix",type:Types::DECIMAL,nullable:true)] 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2,nullable:true)]
     private ?string $prix;
     
     #[ORM\Column(name:"etat_objet",length:100,nullable:true)] 
