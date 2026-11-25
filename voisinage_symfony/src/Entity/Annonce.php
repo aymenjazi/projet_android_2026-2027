@@ -45,9 +45,9 @@ class Annonce
     #[ORM\Column(name:"quartier",length:100,nullable:true)] 
     private ?string $quartier;
     
-    #[ORM\ManyToOne(targetEntity: Location::class, inversedBy: 'annonces')]
+    #[ORM\ManyToOne(targetEntity: Localisation::class, inversedBy: 'annonces')]
     #[ORM\JoinColumn(name: 'localisation_id', referencedColumnName: 'id', nullable: false)]
-    private ?Location $localisation;
+    private ?Localisation $localisation;
     
     #[ORM\Column(name:"date_publication",type:"date",nullable:false)]
     private ?DateTime $date_publication;
@@ -119,10 +119,10 @@ class Annonce
     public function getQuartier():?string{
         return $this->quartier;
     }
-    public function setLocalisation(Location $localisation){
+    public function setLocalisation(Localisation $localisation){
         $this->localisation=$localisation;
     }
-    public function getLocalisation():?Location{
+    public function getLocalisation():?Localisation{
         return $this->localisation;
     }
     public function getDatePublication():?DateTime{
