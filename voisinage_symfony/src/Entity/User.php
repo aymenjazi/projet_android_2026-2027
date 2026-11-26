@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'Utilisateur')]
@@ -39,6 +40,7 @@ class User
     private ?string $role = null;
     
     #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'u')]
+    #[Ignore]
     private Collection $annonces;
 
     public function setAnnonces(Collection $annonces){

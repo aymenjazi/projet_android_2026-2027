@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\AnnonceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Annonce
 {
     #[ORM\Id]
@@ -40,11 +42,11 @@ class Annonce
     #[ORM\Column(name:"disponibilte",length:100,nullable:true)] 
     private ?string $disponibilite;
     
-    #[ORM\Column(name:"ville",length:100,nullable:true)] 
+    /*#[ORM\Column(name:"ville",length:100,nullable:true)] 
     private ?string $ville;
     
     #[ORM\Column(name:"quartier",length:100,nullable:true)] 
-    private ?string $quartier;
+    private ?string $quartier;*/
     
     #[ORM\ManyToOne(targetEntity: Localisation::class, inversedBy: 'annonces')]
     #[ORM\JoinColumn(name: 'localisation_id', referencedColumnName: 'id', nullable: false)]
@@ -67,7 +69,7 @@ class Annonce
         return $this->u;
     }
     public function setCategorie(Categorie $c){
-        $this->c=c;
+        $this->c=$c;
     }
     public function getCategorie():?Categorie{
         return $this->Categorie;
@@ -91,7 +93,7 @@ class Annonce
         return $this->type_transaction;
     }
     public function setPrix(string $prix){
-        $this->prix=prix;
+        $this->prix=$prix;
     }
     public function getPrix():?string{
         return $this->prix;
@@ -108,7 +110,7 @@ class Annonce
     public function getDisponibilite():?string{
         $this->disponibilite=$disponibilite;
     }
-    public function setVille(string $ville){
+    /*public function setVille(string $ville){
         $this->ville=$ville;
     }
     public function getVille():?string{
@@ -119,7 +121,7 @@ class Annonce
     }
     public function getQuartier():?string{
         return $this->quartier;
-    }
+    }*/
     public function setLocalisation(Localisation $localisation){
         $this->localisation=$localisation;
     }

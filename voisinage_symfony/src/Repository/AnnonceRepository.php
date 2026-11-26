@@ -15,7 +15,34 @@ class AnnonceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Annonce::class);
     }
-
+    public function findByCategorieLibelle(string $libelle):array{
+        return $this->createQueryBuilder('a')
+            ->where('a.c.libelle = :libelle')
+            ->setParameter('libelle',$libelle)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByTypeTransaction(string $type_transaction):array{
+        return $this->createQueryBuilder('a')
+            ->where('a.type_transaction = :type_transaction')
+            ->setParameter('type_transaction',$type_transaction)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByEtatObjet(string $etat_objet):array{
+        return $this->createQueryBuilder('a')
+            ->where('a.etat_objet = :etat_objet')
+            ->setParameter('etat_objet',$etat_objet)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByPrix(string $prix){
+        return $this->createQueryBuilder('a')
+            ->where('a.prix = :prix')
+            ->setParameter('prix',$prix)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects
 //     */
