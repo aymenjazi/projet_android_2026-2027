@@ -42,6 +42,8 @@ class Annonce
     #[ORM\Column(name:"disponibilte",length:100,nullable:true)] 
     private ?string $disponibilite;
     
+    #[ORM\OneToMany(targetEntity:PhotoAnnonce::class,mappedBy:'annonce')]
+    private ?Collection $photos;
     /*#[ORM\Column(name:"ville",length:100,nullable:true)] 
     private ?string $ville;
     
