@@ -6,6 +6,7 @@ use App\Repository\AnnonceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -20,7 +21,7 @@ class Annonce
     #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'id', nullable: false)]
     private ?User $u;
 
-    #[ORM\OneToOne(targetEntity: Categorie::class, inversedBy: 'annonces')]
+    #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'annonces')]
     #[ORM\JoinColumn(name: 'categorie_id', referencedColumnName: 'id', nullable: false)]
     private ?Categorie $c;
     
@@ -56,6 +57,7 @@ class Annonce
     
     #[ORM\Column(name:"date_publication",type:"date",nullable:false)]
     private ?DateTime $date_publication;
+    function __construct(){$this->photos=new ArrayCollection();}
     
     public function getId(): ?int
     {

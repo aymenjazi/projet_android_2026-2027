@@ -31,6 +31,7 @@ class Localisation
     #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'localisation')]
     #[Ignore]
     private Collection $annonces;
+    public function __construct(){$this->annonces=new ArrayCollection();}
 
     public function setAnnonces(Collection $annonces){
         $this->annonces=$annonces;

@@ -4,14 +4,17 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Annonce;
+use App\Entity\PhotoAnnonce;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 #[Route('/photoAnnonce')]
 final class PhotoAnnonceController extends AbstractController
 {
-    #[Autowire('%annonces_photos_dir%')] 
-    private string $PhotouploadDir
-    public function __construct(private EntityManagerInterface $em,private SluggerInterface $slugger)
+    public function __construct(private EntityManagerInterface $em,private SluggerInterface $slugger,#[Autowire('%annonces_photos_dir%')]private string $PhotouploadDir){}
     /*#[Route('/photo/annonce', name: 'app_photo_annonce')]
     public function index(): JsonResponse
     {
@@ -22,12 +25,17 @@ final class PhotoAnnonceController extends AbstractController
     }*/
     #[Route("/insert_photoAnnonce",methods:['POST'])]
     public function insertPhoto(Request $request): JsonResponse {
+        /*return $this->json([
+        'content_type' => $request->headers->get('Content-Type'),
+        'post'  => $request->request->all(),
+        'files' => array_keys($request->files->all()),
+        ]);*/
         $annonceId = $request->request->get('annonce_id');
         if ($annonceId==null) {
             return $this->json(['error' => true, 'message' => 'Annonce should be mentioned'], 400);
         }
 
-        $annonce = $em->getRepository(Annonce::class)->find($annonceId);
+        $annonce = $this->em->getRepository(Annonce::class)->find($annonceId);
         if ($annonce==null) {
             return $this->json(['error' => true, 'message' => 'Annonce not found'], 404);
         }
@@ -41,11 +49,11 @@ final class PhotoAnnonceController extends AbstractController
             return $this->json(['error' => true, 'message' => 'Invalid image type'], 400);
         }
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $slugger->slug($originalFilename);
+        $safeFilename = $this->slugger->slug($originalFilename);
         $extension = $file->guessExtension();
         $newFilename = $safeFilename . '-' . uniqid() . '.' . $extension;
         try {
-            $file->move($uploadDir, $newFilename);
+            $file->move($this->PhotouploadDir, $newFilename);
         } catch (FileException $e) {
             return $this->json(['error' => true, 'message' => 'Upload failed: ' . $e->getMessage()], 500);
         }

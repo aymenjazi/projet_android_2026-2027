@@ -42,6 +42,7 @@ class User
     #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'u')]
     #[Ignore]
     private Collection $annonces;
+    public function __construct(){$this->annonces=new ArrayCollection();}
 
     public function setAnnonces(Collection $annonces){
         $this->annonces=$annonces;
