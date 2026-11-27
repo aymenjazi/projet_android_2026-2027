@@ -30,28 +30,28 @@ final class AnnonceController extends AbstractController
     }*/
     #[Route("/get_annonces",methods:['GET'])]
     public function getAllAnnonces():?JsonResponse{
-        $annonces=$annonce_repository->findAll();
+        $annonces=$this->annonce_repository->findAll();
         return $this->json($annonces);
     }
     #[Route("/{libelle}/get_annonces_par_libelle",methods:['GET'])]
     public function getAnnoncesByCategorieLibelle(string $libelle):?JsonResponse{
-        $annonces=$annonce_repository->findByCategorieLibelle($libelle);
+        $annonces=$this->annonce_repository->findByCategorieLibelle($libelle);
         return $this->json($annonces);
     }
     #[Route("/{type_transaction}/get_annonces_par_libelle",methods:['GET'])]
     public function getAnnoncesByTypeTransaction(string $type_transaction):?JsonResponse{
-        $annonces=$annonce_repository->findByTypeTransaction($type_transaction);
+        $annonces=$this->annonce_repository->findByTypeTransaction($type_transaction);
         return $this->json($annonces);
     }
     #[Route("/{etat_objet}/get_annonces_par_etat_objet",methods:['GET'])]
     public function getAnnoncesByEtatObjet(string $etat_objet):?JsonResponse{
-        $annonces=$annonce_repository->findByEtatObjet($etat_objet);
+        $annonces=$this->annonce_repository->findByEtatObjet($etat_objet);
         
         return $this->json($annonces);
     }
     #[Route("/{prix}/get_annonces_par_prix",methods:['GET'])]
     public function getAnnoncesByPrix(string $prix):?JsonResponse{
-        $annonces=$annonces_repository->findByPrix($prix);
+        $annonces=$this->annonces_repository->findByPrix($prix);
         return $this->json($annonces);
     }
     #[Route("/insert_annonce",methods:['POST'])]

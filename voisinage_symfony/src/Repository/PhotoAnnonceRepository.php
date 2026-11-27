@@ -15,7 +15,14 @@ class PhotoAnnonceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PhotoAnnonce::class);
     }
-
+    public function findByAnnonceId($value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.annonce= :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return PhotoAnnonce[] Returns an array of PhotoAnnonce objects
 //     */

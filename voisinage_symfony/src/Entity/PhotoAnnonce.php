@@ -18,7 +18,6 @@ class PhotoAnnonce
 
     #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: 'photos')]
     #[ORM\JoinColumn(name: 'annonce_id', referencedColumnName: 'id', nullable: false)]
-    #[Ignore]
     private Annonce $annonce;
 
     public function getId(): ?int

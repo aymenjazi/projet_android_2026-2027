@@ -11,10 +11,11 @@ use App\Entity\Annonce;
 use App\Entity\PhotoAnnonce;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Repository\PhotoAnnonceRepository;
 #[Route('/photoAnnonce')]
 final class PhotoAnnonceController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $em,private SluggerInterface $slugger,#[Autowire('%annonces_photos_dir%')]private string $PhotouploadDir){}
+    public function __construct(private PhotoAnnonceRepository $rep,private EntityManagerInterface $em,private SluggerInterface $slugger,#[Autowire('%annonces_photos_dir%')]private string $PhotouploadDir){}
     /*#[Route('/photo/annonce', name: 'app_photo_annonce')]
     public function index(): JsonResponse
     {
@@ -23,6 +24,12 @@ final class PhotoAnnonceController extends AbstractController
             'path' => 'src/Controller/PhotoAnnonceController.php',
         ]);
     }*/
+    #[Route('/{id}/get_photoAnnonces',methods:['GET'])]
+    public function getPhotos(int $id){
+        $photos=$this->rep->findByAnnonceId($id);
+        return $this->json($photos);
+
+    }
     #[Route("/insert_photoAnnonce",methods:['POST'])]
     public function insertPhoto(Request $request): JsonResponse {
         /*return $this->json([
